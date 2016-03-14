@@ -40,3 +40,43 @@ class MultipleFactorList
   end
 end
 
+class MultipleFactorListCached
+  # Cached version which won't do the calculation if it's already present in the Hash
+  def initialize(array = [])
+    if array.respond_to?(:each)
+      @array = array
+    elsif
+      @array = [array]
+    end
+  end
+
+  def factor_hash
+    hash_of_factors = Hash.new
+    @array.each do |number|
+      if hash_of_factors[number].nil?
+        hash_of_factors[number] = self.factors_list number
+      end
+    end
+
+    hash_of_factors
+  end
+
+  def factors_list integer
+    @array.select { |num| integer % num == 0 && num != integer }
+  end
+
+  def multiple_hash
+    hash_of_multiples = Hash.new
+    @array.each do |number|
+      if hash_of_multiples[number].nil?
+        hash_of_multiples[number] = self.multiples_list number
+      end
+    end
+
+    hash_of_multiples
+  end
+
+  def multiples_list integer
+    @array.select { |num| num % integer == 0 && num != integer }
+  end
+end
