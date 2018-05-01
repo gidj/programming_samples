@@ -7,7 +7,12 @@ class MultipleFactorList
   # that also exist in the given list.
   def initialize(array = [])
     if array.respond_to?(:each)
-      @array = array
+      if array.is_a? Hash
+        @array = []
+        array.each do |key, value|
+          @array.append(key)
+        end
+      end
     elsif
       @array = [array]
     end
